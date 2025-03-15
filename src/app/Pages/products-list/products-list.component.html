@@ -7,39 +7,16 @@
       </div>
     </div>
   </div>
-  <div class="bg-white flex flex-col p-3 sm:flex-row sm:justify-end items-center gap-4 sticky z-40">
-    <div class="flex items-center gap-4">
-      <button class="flex flex-col items-center gap p-2 w-9 hover:bg-gray-200 transition rounded-full"
-        (click)="dropDownMenu  = !dropDownMenu">
-        <fa-icon class="text-lg" [icon]="faSort" *ngIf="!dropDownMenu"></fa-icon> <fa-icon class="text-lg" [icon]="faCross" *ngIf="dropDownMenu"></fa-icon>
-      </button>
-      <div *ngIf="dropDownMenu" class="absolute right-[18%] mt-2 ml-1 w-48 bg-white border rounded-lg shadow-lg top-12">
-        <ul class="py-2">
-          <li  (click)="sortProducts('nameAsc')" *ngIf="isNameAsc">
-            <button class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative" style="gap:  0.625rem;">
-              Name:  <fa-icon class="text-sm" [icon]="faArrowUp"></fa-icon>
-            </button>
-          </li>
-
-          <li class="relative"  (click)="sortProducts('name')" *ngIf="!isNameAsc">
-            <button class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative" style="gap: 0.625rem;">
-              Name: <fa-icon class="text-sm" [icon]="faArrowDown"></fa-icon>
-            </button>
-          </li>
-          <li  (click)="sortProducts('priceAsc')" *ngIf="isPriceAsc">
-            <button class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative" style="gap: 1.125rem;">
-              Price: <fa-icon class="text-sm" [icon]="faArrowUp"></fa-icon>
-            </button>
-          </li>
-          <li (click)="sortProducts('price')" *ngIf="!isPriceAsc">
-            <button class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative" style="gap:  1.125rem;">
-              Price:<fa-icon class="text-sm" [icon]="faArrowDown"></fa-icon>
-            </button>
-          </li>
-
-        </ul>
-      </div>
-    </div>
+      <div class="bg-white flex flex-col p-3 sm:flex-row sm:justify-end items-center gap-4 sticky z-40">
+        <select [(ngModel)]="selectedSort" (change)="sortProducts(selectedSort)" class="border p-2 rounded-lg cursor-pointer">
+          <option value="" disabled selected>Sort By</option>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+        </select>
+        <div class="w-5 h-5 cursor-pointer" *ngIf="isDsc" (click)="toggleOrder()"><svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 480l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32z"></path></svg>
+        </div>
+        <div class="w-5 h-5 cursor-pointer" *ngIf="isAsc" (click)="toggleOrder()"><svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-224 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg>
+        </div>
     <div (click)="dropDownMenu ? dropDownMenu = !dropDownMenu : dropDownMenu"
         class="w-full sm:w-auto flex items-center gap-2 border border-gray-300 rounded-md p-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 transition">
         <fa-icon [icon]="faSearch" class="text-gray-500"></fa-icon>
@@ -73,7 +50,7 @@
         </svg>
       </div>
     </div>
-    <div class="col-span-full flex flex-col items-center justify-center min-h-[18.75rem]text-center p-6 rounded-lg"
+    <div class="col-span-full flex flex-col items-center justify-center min-h-[300px]text-center p-6 rounded-lg"
       *ngIf="!isLoading">
       <h1 class="text-2xl font-semibold text-gray-600 mt-4">No Product Found</h1>
       <p class="text-gray-500 mt-2">The product you are looking for does not exist.</p>

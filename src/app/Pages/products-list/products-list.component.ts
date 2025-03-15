@@ -20,7 +20,8 @@ export class ProductsListComponent implements OnInit{
   originalProducts: Product[] = []; 
   isLoading = false;
   searchQuery: string = '';
-  selectedSort='Default'
+  selectedSort=''
+  selected="";
   activeCategory: string = 'All';
   showDeleteModal = false;
   isNameAsc=true;
@@ -36,6 +37,8 @@ export class ProductsListComponent implements OnInit{
   faArrowDown = faArrowDown;
   faCross=faTimes
   dropDownMenu  = false;
+  isAsc=true;
+  isDsc=false;
   categories: string[] = ['All', 'Electronics', 'Gaming Accessories', 'Storage Devices'];
 
   constructor(private productService: LoadProductsService,public titleService:TitleService) {}
@@ -90,22 +93,30 @@ export class ProductsListComponent implements OnInit{
   }
 
   sortProducts(sortBy:string){
-    this.dropDownMenu = !this.dropDownMenu;
     let pList = [...this.products];
-    if(sortBy === 'nameAsc'){
-      this.isNameAsc = false;
+    this.selected = sortBy;
+    if(sortBy === 'name' && this.isAsc){
+      this.isAsc = false;
+      this.isDsc = true;
       pList.sort(sortByName);
-    }else if(sortBy === 'priceAsc'){
-      this.isPriceAsc = false;
+    }else if(sortBy === 'price' && this.isAsc){
+      this.isAsc = false;
+      this.isDsc = true;
       pList.sort(sortByPrice)
-    }else if(sortBy === 'name'){
-      this.isNameAsc = true;
+    }else if(sortBy === 'name'&& this.isDsc){
+      this.isAsc = true;
+      this.isDsc = false;
       pList.sort(sortByNameDsc)
-    }else if(sortBy === 'price'){
-      this.isPriceAsc = true;
+    }else if(sortBy === 'price' && this.isDsc){
+      this.isAsc = true;
+      this.isDsc = false;
       pList.sort(sortByPriceDsc)
     }
     this.products = pList;
+  }
+
+  toggleOrder(){
+    this.sortProducts(this.selected);
   }
   handleDeleteRequest(product: any) {
     this.selectedProduct = product;
