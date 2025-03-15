@@ -1,0 +1,95 @@
+<div class="bg-slate-100 px-6 py-0 shadow-lg flex items-center justify-between sticky z-50 top-0 left-0 w-full">
+    <button routerLink="/"
+        class="text-lg font-semibold text-gray-800 hover:text-gray-600 transition duration-300 cursor-pointer"
+        title="Home Page">
+        Store
+    </button>
+
+    <div class="flex items-center gap-4 ml-auto relative">
+        
+        <button class="flex flex-col items-center gap p-2 rounded-md hover:bg-gray-200 transition"
+        (click)="profileMenuOpen = !profileMenuOpen">
+            <img [src]="authService.isUserLoggedIn() && imageUrl ? imageUrl :'src/assets/images/profile.jpg'" alt="Profile-Image" class="w-8 h-8 rounded-full"/>
+            <span class="text-sm">{{ username || 'Login' }}</span>
+        </button>
+        <div *ngIf="profileMenuOpen" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg top-12">
+            <ul class="py-2">
+                <li (click)="closeList()" *ngIf="authService.isUserLoggedIn()">
+                    <button routerLink="/wishlist" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative">
+                        <fa-icon [icon]="faHeart" class="mr-2"></fa-icon>
+                        Wishlist
+                        <span *ngIf="wishlistCount > 0"
+                            class="absolute right-4 top-2 bg-red-500 text-white text-xs rounded-full px-2">
+                            {{ wishlistCount }}
+                        </span>
+                    </button>
+                </li>
+
+                <li class="relative" (click)="closeList()" *ngIf="authService.isUserLoggedIn()">
+                    <button routerLink="/cart" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative">
+                        <fa-icon [icon]="faCartShopping" class="mr-2"></fa-icon>
+                        Cart
+                        <span *ngIf="cartCount > 0"
+                            class="absolute right-4 top-2 bg-red-500 text-white text-xs rounded-full px-2">
+                            {{ cartCount }}
+                        </span>
+                    </button>
+                </li>
+                <li class="relative" (click)="closeList()" *ngIf="authService.isUserLoggedIn()">
+                    <button routerLink="/orderhistory" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative">
+                        <fa-icon [icon]="faHistory" class="mr-2"></fa-icon>
+                        Order History
+                    </button>
+                </li>
+                <li *ngIf="authService.user?.role === 'admin' && authService.isUserLoggedIn()" (click)="closeList()">
+                    <button routerLink="/addproduct" (click)="showForm = !showForm"
+                        class="flex items-center w-full px-4 py-2 hover:bg-gray-100">
+                        <fa-icon [icon]="faPlus" class="mr-2"></fa-icon> Add Product
+                    </button>
+                </li>
+                <li *ngIf="authService.user?.role === 'admin' && authService.isUserLoggedIn()" (click)="closeList()">
+                    <button routerLink="/adduser"
+                        class="flex items-center w-full px-4 py-2 hover:bg-gray-100">
+                        <fa-icon [icon]="faPlus" class="mr-2"></fa-icon> Add User
+                    </button>
+                </li>
+                <li class="relative" (click)="closeList()" *ngIf="authService.isUserLoggedIn()">
+                    <button routerLink="/profile" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 relative">
+                        <fa-icon [icon]="faEdit" class="mr-2"></fa-icon>
+                        Edit Profile
+                    </button>
+                </li>
+                 <li (click)="closeList()">
+                    <button routerLink="/login" *ngIf="!authService.isUser() && !authService.isUserLoggedIn(); else logoutTemplate"
+                        class="flex items-center w-full px-4 py-2 hover:bg-gray-100">
+                        <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
+                        Login
+                    </button>
+                    <ng-template #logoutTemplate>
+                        <button class="flex items-center w-full px-4 py-2 hover:bg-gray-100" (click)="logOut()">
+                            <fa-icon [icon]="faSignOut" class="mr-2"></fa-icon>
+                            Logout
+                        </button>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- <div *ngIf="menuOpen"
+    class="sm:hidden fixed top-[3.75rem] left-0 w-full bg-white shadow-md flex flex-col items-center py-3 gap-3 z-50">
+    <button [routerLink]="showForm && authService.isUser() ? '/' : '/add'" (click)="showForm = !showForm"
+        class="bg-gray-500 hover:bg-gray-600 px-5 py-2 rounded-full shadow-md transition duration-300"
+        *ngIf="authService.isUser() && authService.user.role === 'admin'">
+        <fa-icon *ngIf="showForm" [icon]="faTimes"></fa-icon>
+        <fa-icon *ngIf="!showForm" [icon]="faPlus"></fa-icon>
+    </button>
+    <button routerLink="/login" *ngIf="!authService.isUser(); else elseCode" class="px-4 py-2"> Login </button>
+    <ng-template #elseCode>
+        <button class="px-4 py-2" (click)="logOut()"> LogOut </button>
+    </ng-template>
+    <app-primary-button label="Wishlist" routerLink="/wishlist"></app-primary-button>
+    <app-primary-button label=" " [icon]="faCartShopping" [badgeCount]="cartCount"
+        routerLink="/cart"></app-primary-button>
+</div> -->

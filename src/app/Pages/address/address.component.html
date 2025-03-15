@@ -1,0 +1,84 @@
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-4"><fa-icon [icon]="arrowLeft" class="mr-2 text-md cursor-pointer" (click)="back()"></fa-icon>Your Address Details</h2>
+    <button class="m-6 bg-blue-500 p-2 text-white font-bold rounded-lg cursor-pointer hover:opacity-80" *ngIf="!showForm" (click)="toggleForm()">+ New Address</button>
+</div>
+<div class="container mx-auto p-6">
+<div class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5 justify-center" *ngIf="!showForm">
+    <div *ngFor="let address of addresses;let i = index" class="w-auto h-auto shadow-md rounded-3xl hover:scale-105">
+        <div class="p-5 items-center">
+            <h4 class="font-bold align-middle p-2 flex justify-between">Address {{i+1}} <fa-icon [icon]="faEdit" (click)="editForm(i)" class="cursor-pointer"></fa-icon></h4>
+            <div class="grid grid-cols-2 gap-2 p-5">
+                <span class="font-medium">Street:</span><p>{{address.street}}</p>
+                <span class="font-medium">Address line:</span><p>{{address.addressLine}}</p>
+                <span class="font-medium">City:</span><p>{{address.city}}</p>
+                <span class="font-medium">State:</span><p>{{address.state}}</p>
+                <span class="font-medium">Postal Code:</span><p>{{address.postalCode}}</p>
+            </div>
+        <div class="flex w-full justify-end mt-4">
+            <button  class="bg-blue-500 p-2 text-white rounded-md hover:opacity-80 cursor-pointer mr-2" (click)="remove(i)">Remove</button>
+            <button class="bg-blue-500 p-2 text-white rounded-md hover:opacity-80 cursor-pointer" (click)="orderConfirm(i)">Select & Proceed</button>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="max-w-xl mx-auto bg-white shadow-md rounded-xl p-6 mt-6" *ngIf="showForm">
+    <h2 class="text-xl font-bold text-center mb-4">Address Details</h2>
+
+    <form [formGroup]="addAddressForm" (ngSubmit)="saveAddress()" class="flex flex-col gap-4">
+
+     
+        <div>
+            <label class="block text-sm font-medium mb-1">Street</label>
+            <input type="text" formControlName="street" class="w-full border px-3 py-2 rounded-md">
+            <p class="text-red-500 text-xs mt-1"
+                *ngIf="addAddressForm.get('street')?.invalid && addAddressForm.controls['street'].touched">
+                Street is required (min 3 characters) and alphabets only
+            </p>
+        </div>
+
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">Address Line </label>
+            <input type="text" formControlName="addressLine" class="w-full border px-3 py-2 rounded-md">
+            <p class="text-red-500 text-xs mt-1"
+                *ngIf="addAddressForm.get('addressLine')?.invalid && addAddressForm.controls['addressLine'].touched">
+                Alphabets only
+            </p>
+        </div>
+
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">City/District</label>
+            <input type="text" formControlName="city" class="w-full border px-3 py-2 rounded-md">
+            <p class="text-red-500 text-xs mt-1"
+                *ngIf="addAddressForm.controls['city'].invalid && addAddressForm.controls['city'].touched">
+                City must be in alphabets
+            </p>
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">State</label>
+            <input type="text" formControlName="state" class="w-full border px-3 py-2 rounded-md">
+            <p class="text-red-500 text-xs mt-1"
+                *ngIf="addAddressForm.controls['state'].invalid && addAddressForm.controls['state'].touched">
+                State must be in alphabets
+            </p>
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Postal Code</label>
+            <input type="text" formControlName="pinCode" class="w-full border px-3 py-2 rounded-md">
+            <p class="text-red-500 text-xs mt-1"
+                *ngIf="addAddressForm.controls['pinCode'].invalid && addAddressForm.controls['pinCode'].touched">
+                Postal Code must be filled as number
+            </p>
+        </div>
+            <div class="flex flex-row justify-between gap-2">
+            <button type="button" class="w-full bg-blue-500 p-1 text-white rounded-md disabled:opacity-50 hover:bg-blue-600" (click)="toggleForm()">Back</button>
+            <button type="submit" 
+            [disabled]="addAddressForm.invalid"
+            class="w-full bg-blue-500 text-white p-1 rounded-md disabled:opacity-50 hover:bg-blue-600">
+            Ok
+          </button>
+        </div>
+    </form>
+</div>

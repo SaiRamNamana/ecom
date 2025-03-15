@@ -1,0 +1,39 @@
+<div class="bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-6 relative transition transform hover:scale-105 cursor-pointer"
+    (click)="navigateToPage(product().id);">
+    <div (click)="$event.stopPropagation()">
+
+        <fa-icon [icon]="faHeart" (click)="addToWishlist(product())" [ngStyle]="{
+            'color': wishlistOfUser.indexOf(product().id) !== -1 ? 'red' : 'black',
+            'font-size': '20px',
+            'cursor': 'pointer'
+        }"></fa-icon>
+        <fa-icon [icon]="faEdit" (click)="editProduct(product())" class="cursor-pointer m-4 text-lg" *ngIf="authService.user.role === 'admin'"></fa-icon>
+        <fa-icon [icon]="faDelete" (click)="openDeleteModal(product())" *ngIf="authService.user.role === 'admin'"></fa-icon>
+    </div>
+    <!-- Product Image -->
+    <div class="mx-auto">
+        <img [src]="product().image" class="w-[13.75rem] h-[7.5rem] object-cover rounded-lg cursor-pointer"[alt]="product().title || 'Product image'">
+    </div>
+
+    <!-- Product Details -->
+    <div class="flex flex-col items-center text-center">
+        <span class="text-lg font-semibold text-gray-800 cursor-pointer" [title]="product().title">
+            {{ product().title.length > 30 ? product().title.slice(0, 20).trim() + '...' : product().title }}
+        </span>
+        <span class="text-md text-gray-600 font-medium">{{ '$' + product().price }}</span>
+        <div class="flex space-x-4 items-center" (click)="$event.stopPropagation()">
+            <ng-container>
+                <app-primary-button [label]="cartlistOfUser.indexOf(product().id) !== -1 ? 'In Cart' : 'Add to Cart'" class="mt-2" 
+                    (btnClicked)="addingProduct(product())" [disabled]="cartlistOfUser.indexOf(product().id) !== -1 || product().stock == 0"></app-primary-button>
+            </ng-container>
+        </div>
+    </div>
+    <span class="absolute top-3 right-4 text-sm font-bold rounded-full px-2 py-1"
+        [class]="product().stock ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'">
+        @if (product().stock !== 0) {
+        {{product().stock}} left
+        }@else {
+        Out of stock
+        }
+    </span>
+</div>

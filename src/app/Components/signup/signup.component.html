@@ -1,0 +1,63 @@
+<div class="flex flex-col items-center justify-center bg-white h-[80vh]">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 mt-2">
+      <h2 class="text-2xl font-bold mb-4 text-center">{{label}}</h2>
+  
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" formControlName="userName"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched"
+            class="text-red-500 text-xs mt-1">
+            Username is required.
+          </p>
+        </div>
+  
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" formControlName="email"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+            class="text-red-500 text-xs mt-1">
+            Enter a valid email address.
+          </p>
+        </div>
+  
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" formControlName="password"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+            class="text-red-500 text-xs mt-1">
+            Password must be at least 6 characters.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <input type="password" formControlName="reEnterPassword"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      
+          <p *ngIf="signupForm.errors?.['passwordsMismatch'] && signupForm.get('reEnterPassword')?.touched"
+              class="text-red-500 text-xs mt-1">
+              Entered password must be the same
+          </p>
+      </div>
+      <div>
+        <p *ngIf="isInvalidUser"
+              class="text-red-500 text-xs mt-1 font-bold">
+              *User with this email already exists
+          </p>
+      </div>
+      <div>
+        <p>Already have an account? <a class="text-blue-600 underline cursor-pointer" href="/login">Signin</a></p> 
+      </div>
+        <button type="submit"
+          class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+          [disabled]="signupForm.invalid">
+          {{label}}
+        </button>
+      </form>
+    </div>
+  </div>
+  

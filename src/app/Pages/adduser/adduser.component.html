@@ -1,0 +1,75 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-semibold mb-4"><fa-icon [icon]="arrowLeft" class="mr-2 text-md cursor-pointer" (click)="back()"></fa-icon></h2>
+<div class="flex flex-col items-center justify-center">
+    <div class="bg-slate-100 p-8 rounded-lg shadow-lg w-96 mt-2">
+      <h2 class="text-2xl font-bold mb-4 text-center">Add User</h2>
+  
+      <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" formControlName="userName"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="addUserForm.get('userName')?.invalid && addUserForm.get('userName')?.touched && !addUserForm.get('userName')?.errors?.['maxlength']"
+            class="text-red-500 text-xs mt-1">
+            Username is required.
+          </p>
+          <p *ngIf="addUserForm.get('userName')?.invalid && addUserForm.get('userName')?.touched && addUserForm.get('userName')?.errors?.['maxlength']"
+            class="text-red-500 text-xs mt-1">
+            Username must be smaller
+          </p>
+        </div>
+  
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" formControlName="email"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched"
+            class="text-red-500 text-xs mt-1">
+            Enter a valid email address.
+          </p>
+        </div>
+  
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" formControlName="password"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched"
+            class="text-red-500 text-xs mt-1">
+            Password must be at least 6 characters.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <input type="password" formControlName="reEnterPassword"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      
+          <p *ngIf="addUserForm.errors?.['passwordsMismatch'] && addUserForm.get('reEnterPassword')?.touched"
+              class="text-red-500 text-xs mt-1">
+              Entered password must be the same
+          </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Select Role</label>
+        <select formControlName="role"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="" disabled selected>Select a role</option>
+          <option  value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <p *ngIf="addUserForm.get('role')?.invalid && addUserForm.get('role')?.touched"
+            class="text-red-500 text-xs mt-1">
+          Please select a role.
+        </p>
+      </div>
+        <button type="submit"
+          class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+          [disabled]="addUserForm.invalid">
+          Add User
+        </button>
+      </form>
+    </div>
+  </div>
+  

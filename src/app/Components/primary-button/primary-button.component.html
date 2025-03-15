@@ -1,0 +1,7 @@
+<button class="relative bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:opacity-90 cursor-pointer flex items-center gap-2" (click)="btnClicked.emit()" [disabled]="disabled" [ngClass]="{'bg-blue-500 hover:opacity-90 cursor-pointer': !disabled,'bg-gray-400 cursor-not-allowed': disabled}">
+    <fa-icon *ngIf="icon" [icon]="icon" class="text-lg"></fa-icon>
+    {{label}}
+    <span *ngIf="badgeCount && badgeCount > 0" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1 min-w-[20px] text-center">
+        {{ badgeCount }}
+    </span>
+</button>

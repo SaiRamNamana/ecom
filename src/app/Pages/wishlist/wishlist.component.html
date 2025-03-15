@@ -1,0 +1,39 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-semibold mb-4"><fa-icon [icon]="arrowLeft" class="mr-2 text-md cursor-pointer" routerLink="/"></fa-icon> Your Wishlist</h2>
+
+  <div class="p-8">
+    <div class="col-span-full flex flex-col items-center justify-center min-h-[50vh] text-center p-6 rounded-lg" *ngIf="this.wishlistItems.length === 0 && !isLoading">
+        <h1 class="text-2xl font-semibold text-gray-600 mt-4">There is no products in wishlist</h1>
+      </div>
+  </div>
+  <div *ngIf="isLoading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+    <div class="w-12 h-12">
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle fill="#23ABFF" stroke="#23ABFF" stroke-width="5" r="15" cx="40" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#23ABFF" stroke="#23ABFF" stroke-width="5" r="15" cx="100" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#23ABFF" stroke="#23ABFF" stroke-width="5" r="15" cx="160" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>
+   </div>
+ </div> 
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let item of wishlistItems" class="bg-white shadow-lg rounded-lg p-4 cursor-pointer" (click)="navigateTo(item)">
+
+      <img [src]="item.image" class="w-full h-40 object-cover rounded-md" alt="{{ item.title }}">
+
+
+      <div class="mt-4 text-center">
+        <h3 class="text-lg font-medium text-gray-900">{{ item.title.length > 40 ? item.title.slice(0, 25).trim() + '...'
+          : item.title }}</h3>
+        <p class="text-gray-600">${{ item.price }}</p>
+        <div class="flex flex-row justify-between"(click)="$event.stopPropagation()">
+        <ng-container>
+          <app-primary-button [label]="cartItems.indexOf(item.productId) !== -1 ? 'In Cart':'Add to Cart'" class="mt-2" (btnClicked)="addingProduct(item)" [disabled]="cartItems.indexOf(item.productId) !== -1"></app-primary-button>
+      </ng-container>
+      <div>
+        <button (click)="removeFromWishlist(item)"
+          class="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition cursor-pointer">
+          Remove
+        </button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>

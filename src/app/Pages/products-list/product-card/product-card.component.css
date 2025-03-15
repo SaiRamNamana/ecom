@@ -1,0 +1,15 @@
+.custom-toast.toast-success {
+  background-color: #28a745 !important;
+  color: white !important;
+  font-size: 0.875rem !important;
+  padding: 0.3125rem 0.625rem !important;
+  border-radius: 0.3125rem !important;
+  box-shadow: 0rem 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
+  width: auto !important;
+  text-align: center !important;
+  min-width: 5rem !important;
+  max-width: 7.5rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

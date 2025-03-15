@@ -1,0 +1,25 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-semibold mb-4"><fa-icon [icon]="arrowLeft" class="mr-2 text-md cursor-pointer" routerLink="/"></fa-icon>Your Cart</h2>
+
+  <div class="p-8">
+    <div
+      class="col-span-full flex flex-col items-center justify-center min-h-[50vh] text-center p-6 rounded-lg"
+      *ngIf="this.cartService.cartItems.length === 0 && !showOrders"
+    >
+      <h1 class="text-2xl font-semibold text-gray-600 mt-4">There are no products in cart</h1>
+    </div>
+
+    <div 
+      class="p-20 flex flex-col gap-4 overflow-y-auto max-h-[50vh] rounded-lg shadow-sm custom-scrollbar" 
+      *ngIf="this.cartService.cartItems.length !== 0 && !showOrders"
+    >
+      @for (item of cartService.cartItems; track item.productId) {
+        <app-cart-item [item]="item"></app-cart-item>
+      }
+    </div>
+
+    <div class="mt-6">
+      <app-order-summary *ngIf="this.cartService.cartItems.length !== 0 && !showOrders"></app-order-summary>
+    </div>
+  </div>
+</div>

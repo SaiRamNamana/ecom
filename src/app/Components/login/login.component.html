@@ -1,0 +1,41 @@
+
+<div class="flex flex-col items-center justify-center bg-white w-full h-[80vh]">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center">Sign In</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="text" formControlName="email"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched && loginForm.controls['email'].errors?.['required']" class="text-red-500 text-xs mt-1">
+            Email is required.
+          </p>
+          <p *ngIf="loginForm?.errors?.['email']" class="error">Enter a valid email address.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" formControlName="password"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
+            Password must be at least 6 characters.
+          </p>
+        </div>
+        <div>
+          <p *ngIf="isInValid" class="text-red-500 text-xs font-bold">
+            *Invalid Credentials
+          </p>
+        </div>
+        <div>
+          <p>Don't you have an account? <a class="text-blue-600 underline cursor-pointer" href="/signup">Signup</a></p> 
+        </div>
+  
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+          [disabled]="loginForm.invalid">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+  

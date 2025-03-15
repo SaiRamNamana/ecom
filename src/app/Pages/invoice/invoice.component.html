@@ -1,0 +1,57 @@
+<div class="container mx-auto p-6 flex flex-row justify-around">
+    <div class="cursor-pointer" (click)="checkID() ? back() : backToHome()"><fa-icon [icon]="arrowLeft"
+            class="mr-2 text-lg cursor-pointer"></fa-icon></div>
+    <div><button class="bg-blue-500 p-2 cursor-pointer rounded-3xl text-white font-bold hover:opacity-80"
+            (click)="download()">Download Invoice</button></div>
+</div>
+<div #content id="inVoiceContent">
+    <div class="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-lg mt-6">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">INVOICE</h1>
+            <div class="text-right">
+                <p class="text-sm text-gray-500">Invoice</p>
+                <p class="text-sm text-gray-500">Date:{{order?.orderdate|date}}</p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-2 gap-4 border-t border-gray-300 pt-4">
+            <div>
+                <h2 class="text-lg font-bold">Billed To:</h2>
+                <p>{{authService.user.username}}</p>
+                <p>{{this.addresses?.[index]?.street+','+this.addresses?.[index]?.addressLine}}</p>
+                <p>{{this.addresses?.[index]?.state}}</p>
+                <p>{{this.addresses?.[index]?.postalCode}}</p>
+            </div>
+            <div class="text-right">
+                <h2 class="text-lg font-bold">From:</h2>
+                <p>Ecom Corporation</p>
+                <p>Ongole</p>
+                <p>Andhra Pradesh</p>
+                <p>India</p>
+            </div>
+        </div>
+
+        <table class="w-full mt-6 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="p-3 text-left">Item</th>
+                    <th class="p-3 text-left">Quantity</th>
+                    <th class="p-3 text-right">Price</th>
+                    <th class="p-3 text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-gray-300" *ngFor="let item of items">
+                    <td class="p-3">{{item.productName}}</td>
+                    <td class="p-3">{{item.quantity}}</td>
+                    <td class="p-3 text-right">{{item.price | currency:'USD'}}</td>
+                    <td class="p-3 text-right">{{item.quantity * item.price | currency:'USD'}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-right mt-6">
+            <p class="text-xl font-bold">Total:{{total() | currency:'USD' }}</p>
+        </div>
+    </div>
+    <div>
