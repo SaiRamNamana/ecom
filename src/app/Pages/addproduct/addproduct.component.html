@@ -8,7 +8,7 @@
 
         
         <div>
-            <label class="block text-sm font-medium mb-1">Title</label>
+            <label class="block text-sm font-medium mb-1">Title <span class="text-red-500">*</span></label>
             <input type="text" formControlName="title" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addProductForm.get('title')?.invalid && addProductForm.controls['title'].touched">
@@ -18,7 +18,7 @@
 
        
         <div>
-            <label class="block text-sm font-medium mb-1">Image URL</label>
+            <label class="block text-sm font-medium mb-1">Image URL <span class="text-red-500">*</span></label>
             <input type="text" formControlName="image" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addProductForm.controls['image'].invalid && addProductForm.controls['image'].touched">
@@ -28,7 +28,7 @@
 
        
         <div>
-            <label class="block text-sm font-medium mb-1">Price ($)</label>
+            <label class="block text-sm font-medium mb-1">Price ($) <span class="text-red-500">*</span></label>
             <input type="number" formControlName="price" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addProductForm.controls['price'].invalid && addProductForm.controls['price'].touched">
@@ -38,7 +38,7 @@
 
         
         <div>
-            <label class="block text-sm font-medium mb-1">Description</label>
+            <label class="block text-sm font-medium mb-1">Description <span class="text-red-500">*</span></label>
             <textarea formControlName="description" 
                 class="w-full border px-3 py-2 rounded-md resize-none h-24"
                 placeholder="Enter product description..."
@@ -53,7 +53,7 @@
 
         
         <div>
-            <label class="block text-sm font-medium mb-1">Stock</label>
+            <label class="block text-sm font-medium mb-1">Stock <span class="text-red-500">*</span></label>
             <input type="number" formControlName="stock" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addProductForm.controls['stock'].invalid && addProductForm.controls['stock'].touched">
@@ -61,7 +61,7 @@
             </p>
         </div>
         <div *ngIf="!isEditing">
-            <label class="block text-sm font-medium mb-1">Category</label>
+            <label class="block text-sm font-medium mb-1">Category <span class="text-red-500">*</span></label>
             <select formControlName="categoryId" class="w-full border px-3 py-2 rounded-md"  (change)="checkNewCategory($event)">
                 <option *ngFor="let category of categories" [value]="category.id">
                     {{ category.name }}  <fa-icon [icon]="faDelete" ></fa-icon>

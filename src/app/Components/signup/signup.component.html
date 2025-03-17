@@ -4,7 +4,7 @@
   
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <label class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
           <input type="text" formControlName="userName"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched"
@@ -14,7 +14,7 @@
         </div>
   
         <div>
-          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
           <input type="email" formControlName="email"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
@@ -24,7 +24,7 @@
         </div>
   
         <div>
-          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <label class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
           <input type="password" formControlName="password"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
@@ -34,7 +34,7 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <label class="block text-sm font-medium text-gray-700">Confirm Password <span class="text-red-500">*</span></label>
           <input type="password" formControlName="reEnterPassword"
               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
       

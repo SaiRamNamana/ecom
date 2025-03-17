@@ -31,7 +31,6 @@ export class InvoiceComponent {
   orderHistory : Order[] = [];
   order:Order|undefined;
   items:Item[] = []
-  private apiUrl = 'http://localhost:5183/Cart';
 
   async ngOnInit(){
     this.titleService.setTitle("Ecom | Invoice")

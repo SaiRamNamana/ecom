@@ -76,20 +76,3 @@
         </div>
     </div>
 </div>
-
-<!-- <div *ngIf="menuOpen"
-    class="sm:hidden fixed top-[3.75rem] left-0 w-full bg-white shadow-md flex flex-col items-center py-3 gap-3 z-50">
-    <button [routerLink]="showForm && authService.isUser() ? '/' : '/add'" (click)="showForm = !showForm"
-        class="bg-gray-500 hover:bg-gray-600 px-5 py-2 rounded-full shadow-md transition duration-300"
-        *ngIf="authService.isUser() && authService.user.role === 'admin'">
-        <fa-icon *ngIf="showForm" [icon]="faTimes"></fa-icon>
-        <fa-icon *ngIf="!showForm" [icon]="faPlus"></fa-icon>
-    </button>
-    <button routerLink="/login" *ngIf="!authService.isUser(); else elseCode" class="px-4 py-2"> Login </button>
-    <ng-template #elseCode>
-        <button class="px-4 py-2" (click)="logOut()"> LogOut </button>
-    </ng-template>
-    <app-primary-button label="Wishlist" routerLink="/wishlist"></app-primary-button>
-    <app-primary-button label=" " [icon]="faCartShopping" [badgeCount]="cartCount"
-        routerLink="/cart"></app-primary-button>
-</div> -->

@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { faHeart,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgIf, NgStyle } from '@angular/common';
+import { LoadProductsService } from '../../Service/load-products.service';
 
 @Component({
   selector: 'app-single-product',
@@ -29,7 +30,7 @@ export class SingleProductComponent {
   cartItems: number[] = [];
   product: any;
   arrowLeft = faArrowLeft
-  constructor(private cartService: CartService, public authService: AuthService, private toastr: ToastrService, public titleService: TitleService, public wishlistService: WishlistService, private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private loadProduct:LoadProductsService, private cartService: CartService, public authService: AuthService, private toastr: ToastrService, public titleService: TitleService, public wishlistService: WishlistService, private route: ActivatedRoute, private http: HttpClient) {
   }
 
   async addingProduct(product: Product) {
@@ -55,8 +56,7 @@ export class SingleProductComponent {
   id: any
   async ngOnInit() {
     this.route.paramMap.subscribe(params => this.id = params.get("id"));
-    this.http.get<Product>(`http://localhost:5183/api/Product/product/${this.id}`)
-      .subscribe(
+    this.loadProduct.getProductsFromList(this.id).subscribe(
         (data) => {
           this.product = data;
           this.titleService.setTitle(`Ecom | ${this.product?.title?.slice(0, 25)}`);

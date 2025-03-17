@@ -94,4 +94,8 @@ export class CartService {
   updateOrderList(){
     this.order.next(undefined);
   }
+
+  async orderHistory(){
+    return (await axios.post(`${this.apiUrl}/orderList/${this.authService.user.id}`)).data;
+  }
 }

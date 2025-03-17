@@ -18,11 +18,10 @@ import { TitleService } from '../../Service/title.service';
 export class OrderhistoryComponent {
   orderHistory : Order[] = [];
   arrowLeft = faArrowLeft;
-  private apiUrl = 'http://localhost:5183/Cart';
-  constructor(private authService:AuthService,private cartService:CartService,private router:Router,private titleService:TitleService){}
+  constructor(private cartService:CartService,private router:Router,private titleService:TitleService){}
   async ngOnInit(){
     this.titleService.setTitle("Ecom | Order History")
-    this.orderHistory = (await axios.post(`${this.apiUrl}/orderList/${this.authService.user.id}`)).data;
+    this.orderHistory = await this.cartService.orderHistory();
   }
   invoiceOfOrder(order:Order){
     this.cartService.updateOrder(order);

@@ -29,6 +29,8 @@ export class AuthService {
   private apiUrl = 'http://localhost:5183/user/login';
   private apiUrlforCart = 'http://localhost:5183/Cart';
   private apiUrlforProfile = 'http://localhost:5183/api/Profile';
+  private signUpUrl = 'http://localhost:5183/user/signup'
+  private apiUrlForUserName = 'http://localhost:5183/user/update'
   public userProfile: Profile | undefined;
 
   constructor(private http: HttpClient) {
@@ -44,6 +46,9 @@ export class AuthService {
 
   isUser() {
     return this.user.verified;
+  }
+  async signUp(user:any){
+    return await lastValueFrom(this.http.post<User>(`${this.signUpUrl}`, user));
   }
 
   async getUser(email: string, password: string,isAdmin:boolean) {
@@ -182,7 +187,9 @@ updateImage(url:string){
   this.profileImageUrl.next(url);
 }
 updateName(name:string){
+  lastValueFrom(this.http.post<any>(`${this.apiUrlForUserName}/${this.user.id}`,{name:name}));
   this.user.username = name;
   this.userName$.next(name);
+  this,this.saveUserToStorage();
 }
 }

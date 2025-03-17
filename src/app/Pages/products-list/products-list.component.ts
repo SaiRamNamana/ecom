@@ -91,7 +91,10 @@ export class ProductsListComponent implements OnInit{
     );
     this.isLoading = false;
   }
-
+  clear(){
+    this.searchQuery ="";
+    this.filterProducts();
+  }
   sortProducts(sortBy:string){
     let pList = [...this.products];
     this.selected = sortBy;

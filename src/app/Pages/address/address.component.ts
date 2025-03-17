@@ -10,9 +10,9 @@ import { HttpClient } from '@angular/common/http';
 import { CartService } from '../../Service/cart.service';
 import { Router } from '@angular/router';
 import { Order } from '../../models/order.model';
-import axios from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { TitleService } from '../../Service/title.service';
+import { LoadProductsService } from '../../Service/load-products.service';
 
 @Component({
   selector: 'app-address',
@@ -21,22 +21,20 @@ import { TitleService } from '../../Service/title.service';
   styleUrl: './address.component.css'
 })
 export class AddressComponent {
-  private apiUrlForCart = 'http://localhost:5183/Cart';
   addAddressForm : FormGroup;
   isProceed:boolean=false;
   faEdit = faEdit;
-   orderHistory : Order[] = [];
+  orderHistory : Order[] = [];
   addresses:Address[]|undefined = [];
   showForm = false;
-  private apiUrl = 'http://localhost:5183/api/Profile';
   arrowLeft = faArrowLeft;
-  constructor(private fb:FormBuilder,private authService:AuthService,private http:HttpClient,private cartService:CartService,private router:Router,public toastr:ToastrService,private titleService:TitleService){
+  constructor(private fb:FormBuilder,private authService:AuthService,private http:HttpClient,private cartService:CartService,private router:Router,public toastr:ToastrService,private titleService:TitleService,private loadProductService:LoadProductsService){
     this.addAddressForm = this.fb.group({
-            street: ['', [Validators.required, Validators.minLength(3),Validators.pattern('^[a-z A-Z]*$')]],
-            addressLine: ['',[Validators.pattern('^[a-z A-Z]*$')]],
+            street: ['', [Validators.required, Validators.minLength(3),Validators.pattern('^[a-zA-Z0-9 ,\\-]*$')]],
+            addressLine: ['',[Validators.pattern('^[a-zA-Z ,\-]*$')]],
             city: ['', [Validators.required, Validators.min(0),Validators.pattern('^[a-z A-Z]*$')]],
             state: ['', [Validators.required, Validators.required,Validators.pattern('^[a-z A-Z]*$')]],
-            pinCode: ['', [Validators.required, Validators.min(6),Validators.pattern('^[0-9]*$')]]
+            pinCode: ['', [Validators.required, Validators.minLength(6),Validators.pattern('^[0-9 ]*$')]]
     })
   }
   async saveAddress(){
@@ -48,7 +46,7 @@ export class AddressComponent {
         state:this.addAddressForm.value.state,
         postalCode:this.addAddressForm.value.pinCode
       };
-      this.http.post<Address>(`${this.apiUrl}/${this.authService.user.id}`,updatedAddress).subscribe(async response => {
+      this.loadProductService.updateAddress(updatedAddress).subscribe(async response => {
         await this.authService.updateProfile(updatedAddress);
     });
     this.authService.Addressess.subscribe(data => {
@@ -67,7 +65,7 @@ export class AddressComponent {
         positionClass: 'toast-top-right',
       });
       this.cartService.addressIndex = index;
-      this.orderHistory = (await axios.post(`${this.apiUrlForCart}/orderList/${this.authService.user.id}`)).data;
+      this.orderHistory = await this.cartService.orderHistory();
       this.cartService.updateOrder(this.orderHistory[0]);
       setTimeout(() => {
         this.router.navigate(['/invoice'],{ 
@@ -86,11 +84,11 @@ export class AddressComponent {
   }
   loadForm(index:number){
     this.addAddressForm = this.fb.group({
-      street: [this.addresses?.[index].street, [Validators.required, Validators.minLength(3),Validators.pattern('^[a-z A-Z]*$')]],
-      addressLine: [this.addresses?.[index].addressLine,[Validators.pattern('^[a-z A-Z]*$')]],
+      street: [this.addresses?.[index].street, [Validators.required, Validators.minLength(3),Validators.pattern('^[a-zA-Z0-9 ,\\-]*$')]],
+      addressLine: [this.addresses?.[index].addressLine,[Validators.pattern('^[a-zA-Z0-9 ,\\-]*$')]],
       city: [this.addresses?.[index].city, [Validators.required, Validators.min(0),Validators.pattern('^[a-z A-Z]*$')]],
       state: [this.addresses?.[index].state, [Validators.required, Validators.required,Validators.pattern('^[a-z A-Z]*$')]],
-      pinCode: [this.addresses?.[index].postalCode, [Validators.required, Validators.min(6), Validators.max(6),Validators.pattern('^[0-9]*$')]]
+      pinCode: [this.addresses?.[index].postalCode, [Validators.required, Validators.maxLength(6),Validators.pattern('^[0-9]*$')]]
   })
   }
   editForm(index:number){
@@ -102,14 +100,11 @@ export class AddressComponent {
     this.showForm = !this.showForm;
   }
   remove(index:number){
-    this.http.post<Address>(`${this.apiUrl}/delete/${this.authService.user.id}`,this.addresses?.[index],{ responseType: 'text' as 'json' }).subscribe({
+    this.loadProductService.removeAddress(this.addresses?.[index]).subscribe({
       next: (response) => {
         this.addresses?.splice(index, 1);
         this.authService.updateProfileBy(this.addresses);
         this.authService.Addressess.subscribe(data => this.addresses = data);
-      },
-      error: () => {
-        
       }
     });;
   }

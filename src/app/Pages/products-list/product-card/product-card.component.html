@@ -4,9 +4,7 @@
 
         <fa-icon [icon]="faHeart" (click)="addToWishlist(product())" [ngStyle]="{
             'color': wishlistOfUser.indexOf(product().id) !== -1 ? 'red' : 'black',
-            'font-size': '20px',
-            'cursor': 'pointer'
-        }"></fa-icon>
+        }" class="cursor-pointer text-xl"></fa-icon>
         <fa-icon [icon]="faEdit" (click)="editProduct(product())" class="cursor-pointer m-4 text-lg" *ngIf="authService.user.role === 'admin'"></fa-icon>
         <fa-icon [icon]="faDelete" (click)="openDeleteModal(product())" *ngIf="authService.user.role === 'admin'"></fa-icon>
     </div>

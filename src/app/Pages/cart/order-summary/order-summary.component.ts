@@ -27,24 +27,6 @@ export class OrderSummaryComponent {
     return total;
   }
   async orderConfirm(){
-    // this.authService.updateCart([]);
-    // var productNotEligible = await this.cartService.orderConfirm();
-    // if(!productNotEligible){
-    //   this.toastr.success('Order Confirmed','Happy Shopping', {
-    //     positionClass: 'toast-top-right',
-    //     timeOut: 2000,
-    //     progressBar: false, 
-    //     toastClass: 'ngx-toastr custom-toast' 
-    //   });
-    //   this.router.navigate(['/']);
-    // }else{
-    //   this.toastr.warning(`Only ${productNotEligible.stock} are available`,`${productNotEligible.title}`, {
-    //     positionClass: 'toast-top-right',
-    //     timeOut: 5000,
-    //     progressBar: false, 
-    //     toastClass: 'ngx-toastr custom-toast' 
-    //   });
-    // }
     this.router.navigate(['/address']);
   }
 }

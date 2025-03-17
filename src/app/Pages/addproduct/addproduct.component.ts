@@ -1,9 +1,9 @@
 import { Component, output } from '@angular/core';
-import { FormGroup, Validators,ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
+import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
 import { Product } from '../../models/products.model';
 import { CommonModule, NgIf } from '@angular/common';
 import { LoadProductsService } from '../../Service/load-products.service';
-import { faEdit,faTrash,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TitleService } from '../../Service/title.service';
@@ -18,11 +18,11 @@ import { Category } from '../../models/category.model';
   selector: 'app-add-product',
   templateUrl: './addproduct.component.html',
   styleUrls: ['./addproduct.component.css'],
-  imports:[ReactiveFormsModule,NgIf,CommonModule,FormsModule,FontAwesomeModule]
+  imports: [ReactiveFormsModule, NgIf, CommonModule, FormsModule, FontAwesomeModule]
 })
 export class AddProductComponent {
   addProductForm: FormGroup;
-  isEditing:boolean=false;
+  isEditing: boolean = false;
   product: Product | undefined;
   btnClicked = output();
   productId: number | undefined;
@@ -30,12 +30,12 @@ export class AddProductComponent {
   newCategoryName = '';
   faDelete = faTrash;
   faEdit = faEdit;
-  categoryExists=false;
-  arrowLeft=faArrowLeft;
-  
+  categoryExists = false;
+  arrowLeft = faArrowLeft;
+
   categories: Category[] = [];
 
-  constructor(private fb:FormBuilder,private productService:LoadProductsService,private route:ActivatedRoute,private router:Router,private toaster:ToastrService,public titleService:TitleService,private http:HttpClient) {
+  constructor(private fb: FormBuilder, private productService: LoadProductsService, private route: ActivatedRoute, private router: Router, private toaster: ToastrService, public titleService: TitleService, private http: HttpClient) {
     this.addProductForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       image: ['', [Validators.required, Validators.pattern('https?://.+')]],
@@ -43,7 +43,7 @@ export class AddProductComponent {
       rate: ['', [Validators.required, Validators.min(0), Validators.max(5)]],
       description: ['', [Validators.required, Validators.required]],
       stock: ['', [Validators.required, Validators.min(0)]],
-      categoryId:[null,Validators.required]
+      categoryId: [null, Validators.required]
     });
   }
   category = "electronics";
@@ -85,8 +85,8 @@ export class AddProductComponent {
     }
   }
 
-  ngOnInit(){
-    this.http.get<Category[]>(`http://localhost:5183/api/Product/category`).subscribe(response => {
+  ngOnInit() {
+    this.productService.getCategories().subscribe(response => {
       this.categories = [...response];
     });
     this.route.paramMap.subscribe(async params => {
@@ -96,7 +96,7 @@ export class AddProductComponent {
         this.isEditing = true;
         this.loadProduct(this.productId);
       } else {
-        this.isEditing = false; 
+        this.isEditing = false;
         this.titleService.setTitle("Ecom | Add Product");
         this.initializeForm();
       }
@@ -109,24 +109,23 @@ export class AddProductComponent {
   }
   addNewCategory() {
     this.categoryExists = false;
-    if (this.addProductForm.value.newCategory.trim() && this.categories.filter(category => category.name.toLocaleLowerCase() === this.addProductForm.value.newCategory.toLocaleLowerCase()).length === 0) {
+    if (this.addProductForm.value.newCategory.trim() && 
+    this.categories.filter(category => category.name.toLocaleLowerCase() === this.addProductForm.value.newCategory.toLocaleLowerCase()).length === 0) {
+      this.productService.addCategory(this.addProductForm.value.newCategory)
+        .subscribe((response: CategoryItem) => {
+          if (response && response.id) {
+            const newCategory = {
+              id: response.id,
+              name: this.addProductForm.value.newCategory,
+            };
 
-      this.http.post<CategoryItem>(`http://localhost:5183/api/Product/category/add`, {}, {
-        params: new HttpParams().set('category', this.addProductForm.value.newCategory)
-      }).subscribe((response: CategoryItem) => {
-        if (response && response.id) {
-          const newCategory = {
-            id: response.id, 
-            name: this.addProductForm.value.newCategory,
-          };
-          
-          this.categories.push(newCategory); 
-          this.addProductForm.patchValue({ newCategory: '' }); 
-          this.addProductForm.patchValue({ categoryId: newCategory.id });
-        }
-      });
+            this.categories.push(newCategory);
+            this.addProductForm.patchValue({ newCategory: '' });
+            this.addProductForm.patchValue({ categoryId: newCategory.id });
+          }
+        });
     }
-    else{
+    else {
       this.categoryExists = true;
       this.addProductForm.patchValue({ newCategory: '' });
     }
@@ -152,10 +151,10 @@ export class AddProductComponent {
       description: ['', [Validators.required]],
       stock: ['', [Validators.required, Validators.min(0)]],
       categoryId: [null, Validators.required],
-      newCategory: ['',Validators.pattern('^[a-zA-Z]+$')] 
+      newCategory: ['', Validators.pattern('^[a-zA-Z]+$')]
     });
   }
-  back(){
+  back() {
     window.history.back();
   }
 }

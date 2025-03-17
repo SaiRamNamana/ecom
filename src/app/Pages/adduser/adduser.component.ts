@@ -49,7 +49,7 @@ export class AdduserComponent {
       email: this.addUserForm.value.email,
       role: this.addUserForm.value.role
     };
-    const isCreated = await lastValueFrom(this.http.post<User>(`${this.apiUrl}`, user));
+    const isCreated = await this.authService.signUp(user);
     if (!isCreated) {
       this.toaster.warning('Bad Request', 'User Already Exists', {
         timeOut: 1000,

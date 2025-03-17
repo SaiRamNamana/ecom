@@ -29,7 +29,7 @@
 
      
         <div>
-            <label class="block text-sm font-medium mb-1">Street</label>
+            <label class="block text-sm font-medium mb-1">Street <span class="text-red-500">*</span></label>
             <input type="text" formControlName="street" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addAddressForm.get('street')?.invalid && addAddressForm.controls['street'].touched">
@@ -49,7 +49,7 @@
 
         
         <div>
-            <label class="block text-sm font-medium mb-1">City/District</label>
+            <label class="block text-sm font-medium mb-1">City/District <span class="text-red-500">*</span></label>
             <input type="text" formControlName="city" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addAddressForm.controls['city'].invalid && addAddressForm.controls['city'].touched">
@@ -57,7 +57,7 @@
             </p>
         </div>
         <div>
-            <label class="block text-sm font-medium mb-1">State</label>
+            <label class="block text-sm font-medium mb-1">State <span class="text-red-500">*</span></label>
             <input type="text" formControlName="state" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addAddressForm.controls['state'].invalid && addAddressForm.controls['state'].touched">
@@ -65,7 +65,7 @@
             </p>
         </div>
         <div>
-            <label class="block text-sm font-medium mb-1">Postal Code</label>
+            <label class="block text-sm font-medium mb-1">Postal Code <span class="text-red-500">*</span></label>
             <input type="text" formControlName="pinCode" class="w-full border px-3 py-2 rounded-md">
             <p class="text-red-500 text-xs mt-1"
                 *ngIf="addAddressForm.controls['pinCode'].invalid && addAddressForm.controls['pinCode'].touched">

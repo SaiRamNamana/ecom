@@ -9,7 +9,6 @@ import { faHeart, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../Components/login/auth.service';
 import { WishlistService } from '../../../Service/wishlist.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { LoadProductsService } from '../../../Service/load-products.service';
 import { cartitem } from '../../../models/cartitem';
 
 

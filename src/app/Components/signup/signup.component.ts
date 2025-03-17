@@ -53,7 +53,7 @@ export class SignupComponent {
       email: this.signupForm.value.email,
       role: "user"
     };
-    const isCreated = await lastValueFrom(this.http.post<User>(`${this.apiUrl}`, user));
+    const isCreated = await this.authService.signUp(user);
     if (!isCreated) {
       this.isInvalidUser = true;
     } else {

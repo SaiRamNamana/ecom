@@ -6,7 +6,7 @@
   
       <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <label class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
           <input type="text" formControlName="userName"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="addUserForm.get('userName')?.invalid && addUserForm.get('userName')?.touched && !addUserForm.get('userName')?.errors?.['maxlength']"
@@ -20,7 +20,7 @@
         </div>
   
         <div>
-          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
           <input type="email" formControlName="email"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched"
@@ -30,7 +30,7 @@
         </div>
   
         <div>
-          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <label class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
           <input type="password" formControlName="password"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <p *ngIf="addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched"
@@ -40,7 +40,7 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <label class="block text-sm font-medium text-gray-700">Confirm Password <span class="text-red-500">*</span></label>
           <input type="password" formControlName="reEnterPassword"
               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
       
@@ -51,7 +51,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">Select Role</label>
+        <label class="block text-sm font-medium text-gray-700">Select Role <span class="text-red-500">*</span></label>
         <select formControlName="role"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="" disabled selected>Select a role</option>
